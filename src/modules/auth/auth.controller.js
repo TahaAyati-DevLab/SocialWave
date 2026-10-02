@@ -1,12 +1,17 @@
 const userModel = require("./../../models/users.js")
 const { errorResponse, successResponse } = require("./../../utils/responses.js")
+const { registerValidatorSchema } = require("./auth.validator.js")
 
 exports.register = async (req, res) => {
     try {
         const { email, username, name, password } = req.body
 
-        //TODO: Develop Validation...
-        //code
+        await registerValidatorSchema.validate({
+            email,
+            username,
+            name,
+            password
+        })
 
         const isUserExist = await userModel.findOne({ $or: [{ email }, { username }] })
         if (isUserExist) {
