@@ -2,9 +2,10 @@ const express = require("express")
 const app = express()
 const path = require("path")
 
-const {setHeaders} = require("./middlewares/headers.js")
-const {errorHandler} = require("./middlewares/errorHandler.js")
+const { setHeaders } = require("./middlewares/headers.js")
+const { errorHandler } = require("./middlewares/errorHandler.js")
 
+const auhtRoutes = require("./modules/auth/auth.routes.js")
 
 app.use(express.urlencoded({ limit: "50mb", extended: true }))
 app.use(express.json({ limit: "50mb" }))
@@ -25,6 +26,7 @@ app.get("/", (req, res) => {
     res.render("index")
 })
 
+app.use("/auth", auhtRoutes)
 
 app.use((req, res) => {
     console.log("Page Not Found :|", req.path)

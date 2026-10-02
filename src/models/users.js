@@ -14,7 +14,7 @@ const schema = new mongoose.Schema({
     },
     name: {
         type: String,
-        required: false
+        required: true
     },
     biography: {
         type: String,
@@ -31,7 +31,7 @@ const schema = new mongoose.Schema({
     },
     profilePicture: {
         type: String,
-        required: true
+        required: false
     },
     private: {
         type: Boolean,
