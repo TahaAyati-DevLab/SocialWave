@@ -1,7 +1,8 @@
 const express = require("express")
 const app = express()
 const path = require("path")
-
+const flash = require("express-flash")
+const session = require("express-session")
 const { setHeaders } = require("./middlewares/headers.js")
 const { errorHandler } = require("./middlewares/errorHandler.js")
 
@@ -9,6 +10,14 @@ const auhtRoutes = require("./modules/auth/auth.routes.js")
 
 app.use(express.urlencoded({ limit: "50mb", extended: true }))
 app.use(express.json({ limit: "50mb" }))
+
+app.use(session({
+    secret: "Secret-Key",
+    resave:false,
+    saveUninitialized:false
+}))
+
+app.use(flash())
 
 app.use(setHeaders)
 

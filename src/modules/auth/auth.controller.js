@@ -2,7 +2,11 @@ const userModel = require("./../../models/users.js")
 const { errorResponse, successResponse } = require("./../../utils/responses.js")
 const { registerValidatorSchema } = require("./auth.validator.js")
 
-exports.register = async (req, res) => {
+exports.registerViews = async(req,res)=>{
+    res.render("auth/register")
+}
+
+exports.register = async (req, res,next) => {
     try {
         const { email, username, name, password } = req.body
 
@@ -15,7 +19,8 @@ exports.register = async (req, res) => {
 
         const isUserExist = await userModel.findOne({ $or: [{ email }, { username }] })
         if (isUserExist) {
-            return errorResponse(res, 400, "Email or Username alrdeay exist...")
+            req.flash("error", "Email or Username alrdeay exist...")
+            return res.redirect("/auth/register")
         }
 
         const isFirstUser = (await userModel.countDocuments()) === 0
@@ -24,12 +29,12 @@ exports.register = async (req, res) => {
             role = "ADMIN"
         }
 
-        const user = new userModel({ email, username, name, password, role })
+        let user = new userModel({ email, username, name, password, role })
         user = await user.save()
 
         return successResponse(res, 201, {
             message: "User register successfully...",
-            user: { ...user, password: undefined }
+            user: { ...user.toObject(), password: undefined }
         })
 
     } catch (err) {
