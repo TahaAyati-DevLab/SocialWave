@@ -2,11 +2,11 @@ const userModel = require("./../../models/users.js")
 const { errorResponse, successResponse } = require("./../../utils/responses.js")
 const { registerValidatorSchema } = require("./auth.validator.js")
 
-exports.registerViews = async(req,res)=>{
+exports.registerViews = async (req, res) => {
     res.render("auth/register")
 }
 
-exports.register = async (req, res,next) => {
+exports.register = async (req, res, next) => {
     try {
         const { email, username, name, password } = req.body
 
@@ -32,10 +32,8 @@ exports.register = async (req, res,next) => {
         let user = new userModel({ email, username, name, password, role })
         user = await user.save()
 
-        return successResponse(res, 201, {
-            message: "User register successfully...",
-            user: { ...user.toObject(), password: undefined }
-        })
+        req.flash("success", "SginUp successfully")
+        return res.redirect("/auth/register")
 
     } catch (err) {
         next(err)

@@ -27,9 +27,6 @@
         </div>
       </header>
 
-      <% if(locals.messages.error){%>
-      <h1 style="color: red;"><%= messages.error%></h1>
-      <%}%>
             <main class="mt-10">
                 <div class="auth-input-card">
                     <label for="register_fullName" class="font-Poppins-Medium">
@@ -119,5 +116,21 @@
 
     </form>
 </body>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script>
+    if("<%= locals.messages.error%>"){
+      swal({
+      title:"<%= locals.messages.error%>",
+      icon:"error",
+      buttons:"Try agin"
+      })
+      }else if("<%= locals.messages.success%>"){
+      swal({
+      title:"<%= locals.messages.success%>",
+      icon:"success",
+      buttons:"Let's Go"
+      })
+      }
+      </script>
 
 </html>
