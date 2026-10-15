@@ -1,6 +1,7 @@
 const userModel = require("./../../models/users.js")
 const { errorResponse, successResponse } = require("./../../utils/responses.js")
 const { registerValidatorSchema } = require("./auth.validator.js")
+const jwt = require("jsonwebtoken")
 
 exports.registerViews = async (req, res) => {
     res.render("auth/register")
@@ -31,6 +32,9 @@ exports.register = async (req, res, next) => {
 
         let user = new userModel({ email, username, name, password, role })
         user = await user.save()
+
+        const accessToken = jwt.sign({ userID: user._id }, process.env.JWT_SECRET, { expiresIn: "90day" })
+        res.cookie("token", accessToken)
 
         req.flash("success", "SginUp successfully")
         return res.redirect("/auth/register")
