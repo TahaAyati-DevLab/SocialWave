@@ -1,43 +1,50 @@
-const mongoose = require("mongoose")
-const { v4: uuidv4 } = require("uuid")
+
+const mongoose = require("mongoose");
+const { v4: uuidv4 } = require("uuid");
 
 const schema = new mongoose.Schema({
-    user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "users",
-        requied: true
-    },
-    token: {
-        type: string,
-        required: true
-    },
-    expire: {
-        type: Date,
-        required: true
-    }
-})
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "users",
+    required: true,
+  },
+  token: {
+    type: String,
+    required: true,
+  },
+  expire: {
+    type: Date,
+    required: true,
+  },
+});
 
-schema.static.createToken = async (user) => {
-    const expireInDays = +process.env.REFRESH_TOKEN_EXPIRE;
-    const refreshToken = uuidv4();
-    const refreshTokenDocument = new model({
-        token: refreshToken,
-        user: user._id,
-        expire: new Date(Date.now() + expireInDays * 24 * 60 * 60 * 1000)
-    })
+schema.statics.createToken = async function (user) {
+  const expireInDays = Number(process.env.REFRESH_TOKEN_EXPIRE);
+  const refreshToken = uuidv4();
 
-    await refreshTokenDocument.save()
-    return refreshToken
-}
+  const refreshTokenDocument = await this.create({
+    token: refreshToken,
+    user: user._id,
+    expire: new Date(
+      Date.now() + expireInDays * 24 * 60 * 60 * 1000
+    ),
+  });
 
-schema.static.verifyToken = async (token) => {
-    const refreshTokenDocument = await model.findOne({ token })
+  return refreshToken;
+};
 
-    if (refreshTokenDocument && refreshTokenDocument.expire >= Date.now()) {
-        return refreshTokenDocument.user;
-    } else {
-        return null;
-    }
-}
+schema.statics.verifyToken = async function (token) {
+  const refreshTokenDocument = await this.findOne({ token });
 
-const model = mongoose.model("RefreshToken", schema)
+  if (
+    refreshTokenDocument && refreshTokenDocument.expire.getTime() >= Date.now()
+  ) {
+    return refreshTokenDocument.user;
+  }
+
+  return null;
+};
+
+const model = mongoose.model("RefreshToken", schema);
+
+module.exports = model;
