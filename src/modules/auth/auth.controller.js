@@ -35,7 +35,7 @@ exports.register = async (req, res, next) => {
         let user = new userModel({ email, username, name, password, role })
         user = await user.save()
 
-        const accessToken = jwt.sign({ userID: user._id }, process.env.JWT_SECRET, { expiresIn: "90day" })
+        const accessToken = jwt.sign({ userID: user._id }, process.env.JWT_SECRET, { expiresIn: "90d" })
         const refreshToken = await refreshTokenModel.createToken(user)
 
         res.cookie("refrsh-token", refreshToken, {
@@ -86,7 +86,7 @@ exports.login = async (req, res, next) => {
             return res.redirect("/auth/login")
         }
 
-        const accessToken = jwt.sign({ userID: user._id }, process.env.JWT_SECRET, { expiresIn: "90day" })
+        const accessToken = jwt.sign({ userID: user._id }, process.env.JWT_SECRET, { expiresIn: "90d" })
         const refreshToken = await refreshTokenModel.createToken(user)
 
         res.cookie("refrsh-token", refreshToken, {

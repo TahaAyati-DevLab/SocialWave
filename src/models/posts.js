@@ -2,12 +2,17 @@ const mongoose = require("mongoose")
 
 const schema = new mongoose.Schema({
     media: {
+        required:true,
         path: { type: String, required: true },
         filename: { type: String, required: true }
     },
     description: {
         type: String,
         required: true
+    },
+    hashTags:{
+        type:String,
+        required:true
     },
     user: {
         type: mongoose.Types.ObjectId,
