@@ -30,7 +30,7 @@ schema.statics.createToken = async function (user) {
     ),
   });
 
-  return refreshToken;
+  return refreshTokenDocument;
 };
 
 schema.statics.verifyToken = async function (token) {

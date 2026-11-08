@@ -1,6 +1,6 @@
 const userModel = require("./../../models/users.js")
 const { errorResponse, successResponse } = require("./../../utils/responses.js")
-const { registerValidatorSchema } = require("./auth.validator.js")
+const { registerValidatorSchema,loginValidationSchema } = require("./auth.validator.js")
 const jwt = require("jsonwebtoken")
 const refreshTokenModel = require("./../../models/refreshToken.js")
 const bcrypt = require("bcrypt")
@@ -69,7 +69,10 @@ exports.login = async (req, res, next) => {
     try {
         const { email, password } = req.body;
 
-        //*code
+        await loginValidationSchema.validate({
+            email,
+            password
+        },{abortEarly:false})
         
         const user = await userModel.findOne({ email });
         if (!user) {
