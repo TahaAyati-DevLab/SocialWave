@@ -6,7 +6,8 @@ const session = require("express-session")
 const { setHeaders } = require("./middlewares/headers.js")
 const { errorHandler } = require("./middlewares/errorHandler.js")
 
-const auhtRoutes = require("./modules/auth/auth.routes.js")
+const authRoute = require("./modules/auth/auth.routes.js")
+const postRoute = require("./modules/post/post.route.js")
 
 app.use(express.urlencoded({ limit: "50mb", extended: true }))
 app.use(express.json({ limit: "50mb" }))
@@ -35,7 +36,8 @@ app.get("/", (req, res) => {
     res.render("index")
 })
 
-app.use("/auth", auhtRoutes)
+app.use("/auth", authRoute)
+app.use("/post",postRoute)
 
 app.use((req, res) => {
     console.log("Page Not Found :|", req.path)
