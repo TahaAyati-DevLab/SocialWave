@@ -5,6 +5,7 @@ const flash = require("express-flash")
 const session = require("express-session")
 const { setHeaders } = require("./middlewares/headers.js")
 const { errorHandler } = require("./middlewares/errorHandler.js")
+const cookieParser = require("cookie-parser")
 
 const authRoute = require("./modules/auth/auth.routes.js")
 const postRoute = require("./modules/post/post.route.js")
@@ -17,6 +18,8 @@ app.use(session({
     resave:false,
     saveUninitialized:false
 }))
+
+app.use(cookieParser())
 
 app.use(flash())
 
