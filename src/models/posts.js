@@ -7,12 +7,10 @@ const schema = new mongoose.Schema({
         filename: { type: String, required: true }
     },
     description: {
-        type: String,
-        required: false
+        type: String
     },
     hashTags:{
-        type:String,
-        required:true
+        type:[String]
     },
     user: {
         type: mongoose.Types.ObjectId,
