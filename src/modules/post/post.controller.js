@@ -18,7 +18,7 @@ exports.postUpload = async (req, res, next) => {
 
         await postUploadValidation.validate({ description })
 
-        const mediaPathUrl = `posts/${req.file.filename}`
+        const mediaPathUrl = `images/posts/${req.file.filename}`
         const post = new postModel({
             media: {
                 filename: req.file.filename,

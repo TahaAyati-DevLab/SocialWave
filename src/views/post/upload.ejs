@@ -48,7 +48,9 @@
 
   <!-- Main -->
   <main id="post-upload-wrapper">
+    <form action="" method="post" enctype="multipart/form-data">
     <section id="post-upload-container">
+      
       <!-- File Upload -->
       <div class="post-upload-box">
         <h3 class="file-upload-title">
@@ -71,7 +73,7 @@
             Browse file
           </p>
 
-          <input type="file" id="file-upload-input" accept="video/*, image/*">
+          <input type="file" id="file-upload-input" name="media" accept="video/*, image/*">
         </div>
       </div>
 
@@ -90,7 +92,7 @@
             </span>
             <span class="requre-symbol">*</span>
           </label>
-          <textarea name="post-description" id="post-description" placeholder="Add a description .." class="w-full mt-4"></textarea>
+          <textarea name="post-description" id="post-description" name="description" placeholder="Add a description .." class="w-full mt-4"></textarea>
         </div>
 
         <!-- Hashtags -->
@@ -101,7 +103,7 @@
             </span>
             <span class="requre-symbol">*</span>
           </label>
-          <input type="text" id="post-hashtags" placeholder="javascript, edit, trend, explore, ne...">
+          <input type="text" id="post-hashtags" name="hashTags" placeholder="javascript, edit, trend, explore, ne...">
           <div id="hashtags-wrap" class="flex text-sm my-2 items-center gap-2">
 
           </div>
@@ -121,12 +123,13 @@
         <%}%>
                 <!-- Upload Button -->
                 <div class="mt-4 flex items-center justify-end">
-                    <button id="upload-button" class="max-w-max">
+                    <button id="upload-button" class="max-w-max" type="submit">
                         Upload post
                     </button>
                 </div>
             </div>
         </section>
+        </form>
     </main>
 
 
@@ -141,5 +144,21 @@
     <script src="/src/Functions/index.js"></script>
 
 </body>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script>
+    if("<%= locals.messages.error%>"){
+        swal({
+        title:"<%= locals.messages.error%>",
+        icon:"error",
+        buttons:"Try again"
+        })
+        }else if("<%= locals.messages.success%>"){
+        swal({
+        title:"<%= locals.messages.success%>",
+        icon:"success",
+        buttons:"Let's Go"
+        })
+        }
+        </script>
 
 </html>
